@@ -1,21 +1,26 @@
 import scrapy
-from scrapy.crawler import CrawlerProcess
-import pandas as pd
-import numpy as np
 
 
 class AlzaNotebookSpider(scrapy.Spider):
-
-    name="alza_pavouk"
+    name = "alza_pavouk"
+    allowed_domains = ['alza.cz']
+    start_urls = ['https://www.alza.cz/herni-notebooky/18848814.htm']
 
     def start_request(self):
         yield scrapy.Request(url=start_urls, callback=self.parse)
 
     def parse(self, response):
-        notebooks_names = response.xpath('//h1[@itemprop="name"]/text()')
+        notebooks_names = response.xpath('//a[@class="name browsinglink"]/text()').get
         yield {
-            'names': notebooks_names,
+            'names': notebooks_names
         }
+
+        # notebooks = response.css('div.fb')
+        # notebooks_links = notebooks.xpath('./a/@href')
+        # links_to_follow = notebooks_links.extract()
+
+        #for url in links_to_follow:
+        #    yield response.follow(url=url, callback=self.parse_notebooks)
 
     # def parse_notebooks(self,response):
     #     notebooks_names = response.xpath('//h1[@itemprop="name"]/text()')
@@ -36,8 +41,8 @@ class AlzaNotebookSpider(scrapy.Spider):
     #     notebooks_price_ext = notebooks_price.extract()
 
 
-start_urls = "https://www.alza.cz/herni-notebooky/18848814.htm"
-df_laptop = pd.DataFrame(columns=["Name", "RAM", "CPU", "Storage", "Resolution", "Refresh Rate", "GPU", "Price"])
-process = CrawlerProcess()
-process.crawl(AlzaNotebookSpider)
-process.start()
+
+
+
+
+
