@@ -1,9 +1,6 @@
 import pandas as pd
 import numpy as np
 
-df = pd.DataFrame(columns=["Name", "Price"])
-print(df)
+data = (pd.read_csv("laptop_prices/notebooks.csv"))
+print(data.head(50))
 
-df.loc[len(df.index)] = ["ASUS", 19870]
-
-print(df)
